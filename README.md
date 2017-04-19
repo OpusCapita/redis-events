@@ -16,7 +16,7 @@ If all this is set up, go to you code and add the following command:
 ```JS
 const RedisEvents = require('ocbesbn-redis-events');
 
-var events = new Events({ consul : { host : '{{your-consul-host}}' } });
+var events = new RedisEvents({ consul : { host : '{{your-consul-host}}' } });
 
 // Subscribe to a channel by name.
 events.subscribe('my-channel', console.log).then(() => events.emit('Hello, world!', 'my-channel'));
