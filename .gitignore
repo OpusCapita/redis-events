@@ -1,3 +1,4 @@
 .nyc_output
 test-results.xml
 node_modules
+coverage
