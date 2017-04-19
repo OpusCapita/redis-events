@@ -15,7 +15,7 @@ test:
     - >
       export HOST_IP=$(ifconfig | grep "docker0" -A1 | grep -o -P "inet addr:.*? " | grep -o -P "\d+\.\d+\.\d+\.\d+") ;
       docker-compose run main npm run test ;
-      docker-compose run npm run test-coverage ;
+      docker-compose run main npm run test-coverage ;
       docker-compose run main npm run doc
   post:
     - sudo mkdir $CIRCLE_TEST_REPORTS/junit
