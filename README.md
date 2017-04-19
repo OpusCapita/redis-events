@@ -1,6 +1,6 @@
 # ocbesbn-redis-events
 [![Coverage Status](https://coveralls.io/repos/github/OpusCapita/redis-events/badge.svg?branch=master&rand=2)](https://coveralls.io/github/OpusCapita/redis-events?branch=master&rand=1)
-![Build status](https://circleci.com/gh/OpusCapita/redis-events.svg?style=shield&circle-token=0db8535ca279a541e26aea88b0dd14fbd46e4790)
+![Build status](https://circleci.com/gh/OpusCapita/redis-events.svg?style=shield&circle-token=33dde9a3e5bbe120832064948a3d073ba7a6ab15)
 
 This module provides simplified access to the publish/subscribe system provided by Redis. To have a look at the full API, please visit the related [wiki page](https://github.com/OpusCapita/redis-events/wiki).
 
