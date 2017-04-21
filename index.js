@@ -206,7 +206,7 @@ RedisEvents.prototype.hasSubscription = function(channel)
  * @property {object} consul - Object for configuring consul related parameters.
  * @property {object} consul.host - Hostname of a consul server.
  * @property {object} consul.redisServiceName - Name of the enpoint for the Redis server in consul.
- * @property {object} consul.redisPasswordKey - Consul configuration key for Redis authorisation.
+ * @property {object} consul.redisPasswordKey - Consul configuration key for Redis authorisation. Might be null or false if not desired to be used.
  * @property {object} context - Optional context object to automatically extend emitted messages.
  */
 RedisEvents.DefaultConfig = {
@@ -229,7 +229,7 @@ function getNewClient(config)
     {
         return Promise.props({
             ep : consul.getEndPoint(config.consul.redisServiceName),
-            password : consul.get(config.consul.redisPasswordKey)
+            password : config.consul.redisPasswordKey && consul.get(config.consul.redisPasswordKey)
         });
     })
     .then(props =>
