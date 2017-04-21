@@ -1,6 +1,6 @@
 {
   "name": "ocbesbn-redis-events",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Module simplifying access to the publish/subscribe system provided by Redis.",
   "main": "index.js",
   "scripts": {
