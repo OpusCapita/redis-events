@@ -21,7 +21,6 @@ const Promise = require('bluebird');
 var RedisEvents = function(config)
 {
     this.config = extend(true, { }, RedisEvents.DefaultConfig, config);
-    this.consul = null;
     this.subscriptions = { };
     this.subscriber = null;
     this.emitter = null;
@@ -71,7 +70,7 @@ RedisEvents.prototype.subscribe = function(channel, callback)
     }
     else if(!channel)
     {
-        return Promise.reject(new Error('Could not be subscribe without a valid channel name.'));
+        return Promise.reject(new Error('Could not subscribe without a valid channel name.'));
     }
     else
     {
