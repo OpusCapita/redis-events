@@ -26,7 +26,7 @@ services:
     command: ['consul://${HOST_IP}:8500']
 
   redis:
-    image: ocbesbn/redis:latest
+    image: opuscapita/redis:dev
     ports:
       - '6379:6379'
     environment:
