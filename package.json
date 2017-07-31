@@ -7,7 +7,7 @@
     "start": "npm run test",
     "test": "npm run clean ; npm run setup-consul ; ${NODE_PATH}/.bin/nyc ${NODE_PATH}/.bin/mocha --recursive -R mocha-junit-reporter",
     "test-raw": "npm run clean ; npm run setup-consul ; ${NODE_PATH}/.bin/nyc ${NODE_PATH}/.bin/mocha --recursive",
-    "test-coverage": "${NODE_PATH}/.bin/nyc --reporter=lcov ${NODE_PATH}/.bin/mocha && sed -i 's/\\/home\\/node\\/redis-events\\//\\.\\//g' coverage/lcov.info",
+    "test-coverage": "npm run setup-consul ; ${NODE_PATH}/.bin/nyc --reporter=lcov ${NODE_PATH}/.bin/mocha && sed -i 's/\\/home\\/node\\/redis-events\\//\\.\\//g' coverage/lcov.info",
     "upload-coverage": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "setup-consul": "curl -X PUT -d 'abc' http://${HOST_IP}:8500/v1/kv/redis-events/redis/password",
     "clean": "${NODE_PATH}/.bin/rimraf .nyc_output coverage test-results.xml",
@@ -34,6 +34,7 @@
     "bluebird": "^3.5.0",
     "extend": "^3.0.0",
     "ocbesbn-config": "^2.2.5",
+    "ocbesbn-logger": "^1.0.3",
     "redis": "^2.7.1"
   },
   "devDependencies": {

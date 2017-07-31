@@ -1,9 +1,10 @@
 'use strict'
 
 const extend = require('extend');
-const redis = require('redis');
 const configService = require('ocbesbn-config');
 const Promise = require('bluebird');
+const redis = require('redis');
+const Logger = require('ocbesbn-logger');
 
 /**
  * Module simplifying access to the publish/subscribe system provided by Redis.
@@ -48,11 +49,12 @@ RedisEvents.prototype.subscribe = function(channel, callback)
 
         if(!this.subscriber)
         {
-            this.subscriber = getNewClient(config);
-            this.subscriber.then(client =>
+            this.subscriber = getNewClient(config).then(client =>
             {
                 client.on('pmessage', (pattern, channel, message) => this.subscriptions[pattern](message && config.parser(message), channel, pattern));
                 client.on('message', (channel, message) => this.subscriptions[channel](message && config.parser(message), channel));
+
+                return client;
             });
         }
 
@@ -223,8 +225,9 @@ RedisEvents.DefaultConfig = {
 
 function getNewClient(config)
 {
-    return configService.init({ host : config.consul.host })
-    .then(consul =>
+    var logger = new Logger({ context : { serviceName : configService.serviceName } });
+
+    return configService.init({ host : config.consul.host }).then(consul =>
     {
         return Promise.props({
             ep : consul.getEndPoint(config.consul.redisServiceName),
@@ -233,13 +236,23 @@ function getNewClient(config)
     })
     .then(props =>
     {
-        var options = {
-            host : props.ep.host,
-            port : props.ep.port,
-            password : props.password
-        };
+        return new Promise((resolve, reject) =>
+        {
+            var client = redis.createClient({
+                host : props.ep.host,
+                port : props.ep.port,
+                password : props.password
+            });
 
-        return redis.createClient(options);
+            client.on('ready', () => resolve(client));
+            client.on('error', err => reject(err));
+            client.on('retry_strategy', info => 1000);
+        });
+    })
+    .catch(err =>
+    {
+        logger.error('An error occured in RedisEvents: %j', err.message);
+        throw err;
     });
 }
 

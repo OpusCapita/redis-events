@@ -2,6 +2,7 @@
 
 const assert = require('assert');
 const RedisEvents = require('../index.js');
+const configService = require('ocbesbn-config');
 
 describe('RedisEvents', () =>
 {
@@ -211,6 +212,25 @@ describe('RedisEvents', () =>
             events.unsubscribe('test');
             events.disposeSubscriber();
 
+            done();
+        });
+    });
+
+    it('#9', done =>
+    {
+        var error;
+
+        configService.init().then(consul => consul.setProperty('redis/password', 'invalid')).then(() =>
+        {
+            var events = new RedisEvents({ defaultEmitChannel : 'test' });
+
+            return events.subscribe('test', (message, channel) => null)
+                .then(() => events.emit('Hello, world!'));
+        })
+        .catch(e => error = e)
+        .finally(() =>
+        {
+            assert.notEqual(error, undefined);
             done();
         });
     });
