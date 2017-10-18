@@ -225,7 +225,7 @@ RedisEvents.DefaultConfig = {
 
 function getNewClient(config)
 {
-    var logger = new Logger({ context : { serviceName : configService.serviceName } });
+    const logger = new Logger({ context : { serviceName : configService.serviceName } });
 
     return configService.init({ host : config.consul.host }).then(consul =>
     {
@@ -238,15 +238,20 @@ function getNewClient(config)
     {
         return new Promise((resolve, reject) =>
         {
-            var client = redis.createClient({
+            const client = redis.createClient({
                 host : props.ep.host,
                 port : props.ep.port,
-                password : props.password
+                password : props.password,
+                connection_strategy : (info) => 1000,
+                retry_strategy : (info) => 1000
             });
 
             client.on('ready', () => resolve(client));
-            client.on('error', err => reject(err));
-            client.on('retry_strategy', info => 1000);
+            client.on('error', err =>
+            {
+                logger.error(err);
+                reject(err);
+            });
         });
     })
     .catch(err =>
