@@ -1,3 +1,9 @@
+# ATTENTION
+
+As this library is discontinued, we can provide you a better and more reliable alternative to use. Please have a look at [RedisEventClient](https://github.com/OpusCapita/redis-client#example-rediseventclient-pubsub) that is part of the [RedisClient](https://github.com/OpusCapita/redis-client) lib for OpusCapita Andariel.
+
+---
+
 # ocbesbn-redis-events
 [![Coverage Status](https://coveralls.io/repos/github/OpusCapita/redis-events/badge.svg?branch=master&rand=2)](https://coveralls.io/github/OpusCapita/redis-events?branch=master&rand=1)
 ![Build status](https://circleci.com/gh/OpusCapita/redis-events.svg?style=shield&circle-token=33dde9a3e5bbe120832064948a3d073ba7a6ab15)
